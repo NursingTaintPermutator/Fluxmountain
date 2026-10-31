@@ -14,6 +14,8 @@ import android.view.SurfaceHolder
 import kotlin.math.exp
 import kotlin.math.max
 import kotlin.math.min
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 
 class MountainWallpaperService : WallpaperService() {
 
@@ -31,7 +33,11 @@ class MountainWallpaperService : WallpaperService() {
     private inner class MountainEngine : Engine() {
 
         private val handler = Handler(Looper.getMainLooper())
-        private val renderer = MountainRenderer()
+        private val renderer = MountainRenderer(loadTexture())
+        private fun loadTexture(): Bitmap? {
+            val opts = BitmapFactory.Options().apply { inScaled = false }
+            return BitmapFactory.decodeResource(resources, R.drawable.berg_textur, opts)
+        }
         private val keyguard by lazy {
             getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         }
